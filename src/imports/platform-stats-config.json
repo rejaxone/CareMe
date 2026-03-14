@@ -1,0 +1,89 @@
+{
+  "task": "add_countup_statistics_section",
+  "project_name": "CareMe",
+  "framework": "React / Next.js",
+  "animation_library": "motion/react",
+  "component_name": "CountUp",
+
+  "page_target": "homepage",
+  "section_name": "PlatformStatistics",
+  "section_position": "below_hospital_brands_section",
+
+  "goal": "Display animated statistics using CountUp component to increase user trust and show platform growth",
+
+  "layout": {
+    "container_width": "max-w-6xl",
+    "padding_top": "80px",
+    "padding_bottom": "80px",
+    "text_align": "center",
+    "grid_columns": {
+      "desktop": 4,
+      "tablet": 2,
+      "mobile": 1
+    }
+  },
+
+  "section_header": {
+    "title": "CareMe Dalam Angka",
+    "subtitle": "Platform yang terus berkembang untuk membantu keluarga merawat orang tercinta."
+  },
+
+  "statistics_items": [
+    {
+      "label": "Pendamping Terverifikasi",
+      "value": 250,
+      "suffix": "+",
+      "duration": 2
+    },
+    {
+      "label": "Rumah Sakit Mitra",
+      "value": 45,
+      "suffix": "+",
+      "duration": 2
+    },
+    {
+      "label": "Layanan Pendampingan",
+      "value": 1200,
+      "suffix": "+",
+      "duration": 2
+    },
+    {
+      "label": "Tingkat Kepuasan Pengguna",
+      "value": 98,
+      "suffix": "%",
+      "duration": 2
+    }
+  ],
+
+  "countup_settings": {
+    "from": 0,
+    "direction": "up",
+    "delay": 0.2,
+    "separator": ","
+  },
+
+  "styling": {
+    "number_style": "text-5xl font-bold text-blue-600",
+    "label_style": "text-gray-600 text-lg mt-2",
+    "card_layout": "flex flex-col items-center justify-center gap-2"
+  },
+
+  "responsive_rules": {
+    "desktop": {
+      "columns": 4
+    },
+    "tablet": {
+      "columns": 2
+    },
+    "mobile": {
+      "columns": 1
+    }
+  },
+
+  "integration_rules": [
+    "Use CountUp component for animated numbers",
+    "Start animation only when section enters viewport",
+    "Maintain spacing from existing Figma layout",
+    "Ensure numbers animate smoothly using motion spring"
+  ]
+}

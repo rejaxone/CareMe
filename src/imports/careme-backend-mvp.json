@@ -1,0 +1,89 @@
+{
+  "project_name": "CareMe Backend MVP",
+  "description": "Backend MVP untuk aplikasi CareMe yang mendukung login menggunakan Google OAuth dan menyimpan data user ke database SQL.",
+  "tech_stack": {
+    "runtime": "Node.js",
+    "framework": "Express.js",
+    "database": "PostgreSQL",
+    "orm": "Prisma",
+    "authentication": "Google OAuth 2.0",
+    "session": "JWT"
+  },
+  "features": [
+    "Login menggunakan akun Google (Gmail)",
+    "Menyimpan data user ke database",
+    "Mengecek apakah user sudah terdaftar",
+    "Membuat akun baru jika user belum ada",
+    "Menghasilkan JWT token setelah login",
+    "Endpoint untuk mengambil data user"
+  ],
+  "database_schema": {
+    "users": {
+      "id": "UUID (primary key)",
+      "google_id": "string (unique)",
+      "name": "string",
+      "email": "string (unique)",
+      "avatar_url": "string",
+      "role": "string (default: user)",
+      "created_at": "timestamp"
+    }
+  },
+  "api_endpoints": [
+    {
+      "method": "GET",
+      "path": "/auth/google",
+      "description": "Redirect user ke Google OAuth login"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/google/callback",
+      "description": "Callback dari Google OAuth untuk memproses login"
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "description": "Mengambil data user yang sedang login"
+    }
+  ],
+  "authentication_flow": [
+    "User menekan tombol login dengan Google di frontend CareMe",
+    "Frontend memanggil endpoint /auth/google",
+    "User diarahkan ke halaman login Google",
+    "Setelah login berhasil Google mengirim callback ke /auth/google/callback",
+    "Backend memeriksa apakah google_id sudah ada di database",
+    "Jika belum ada maka backend membuat user baru",
+    "Backend menghasilkan JWT token",
+    "Token dikirim kembali ke frontend",
+    "Frontend menyimpan token untuk autentikasi selanjutnya"
+  ],
+  "project_structure": {
+    "folders": [
+      "src/controllers",
+      "src/routes",
+      "src/middleware",
+      "src/services",
+      "src/config",
+      "prisma"
+    ],
+    "main_files": [
+      "server.js",
+      "authController.js",
+      "userController.js",
+      "googleAuthService.js",
+      "prisma/schema.prisma"
+    ]
+  },
+  "security": [
+    "Validasi JWT untuk endpoint protected",
+    "Validasi email dari Google OAuth",
+    "Environment variables untuk API keys",
+    "Rate limiting untuk endpoint login"
+  ],
+  "environment_variables": [
+    "DATABASE_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "JWT_SECRET",
+    "PORT"
+  ]
+}

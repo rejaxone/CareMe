@@ -1,0 +1,86 @@
+{
+  "task": "implement_payment_gateway_mayar",
+  "project_name": "CareMe",
+  "goal": "Mengintegrasikan sistem pembayaran menggunakan Mayar dengan API Key dan Webhook untuk memproses pembayaran layanan CareMe dan memperbarui status booking secara otomatis.",
+
+  "payment_provider": "Mayar",
+
+  "environment_variables": [
+    "MAYAR_API_KEY",
+    "MAYAR_WEBHOOK_TOKEN",
+    "MAYAR_API_BASE_URL"
+  ],
+
+  "tech_stack": {
+    "frontend": "React",
+    "backend": "Node.js / Express",
+    "database": "Supabase PostgreSQL",
+    "authentication": "Supabase Auth"
+  },
+
+  "database_tables": [
+    {
+      "name": "payments",
+      "fields": [
+        "id uuid primary key",
+        "user_id uuid",
+        "booking_id uuid",
+        "payment_reference text",
+        "amount numeric",
+        "status text",
+        "created_at timestamp default now()"
+      ]
+    }
+  ],
+
+  "files_to_create": [
+    {
+      "path": "backend/services/mayarService.js",
+      "description": "Service untuk komunikasi dengan API Mayar",
+      "code_structure": [
+        "function createPaymentInvoice()",
+        "function verifyWebhookToken()"
+      ]
+    },
+
+    {
+      "path": "backend/routes/paymentRoutes.js",
+      "description": "Endpoint untuk membuat pembayaran dan menerima webhook Mayar",
+      "routes": [
+        "POST /api/payments/create",
+        "POST /api/payments/webhook"
+      ]
+    }
+  ],
+
+  "create_payment_flow": [
+    "User melakukan booking layanan CareMe",
+    "Backend membuat invoice pembayaran menggunakan API Mayar",
+    "Backend menyimpan data pembayaran di database",
+    "Frontend menerima payment_url dari Mayar",
+    "User diarahkan ke halaman pembayaran Mayar"
+  ],
+
+  "webhook_flow": [
+    "Mayar mengirim webhook ke endpoint /api/payments/webhook",
+    "Backend memverifikasi webhook token",
+    "Backend membaca status pembayaran",
+    "Jika status success maka update tabel payments",
+    "Update status booking menjadi paid"
+  ],
+
+  "example_webhook_handler_logic": [
+    "ambil header webhook token",
+    "bandingkan dengan MAYAR_WEBHOOK_TOKEN",
+    "jika valid proses payload",
+    "update payment status di database"
+  ],
+
+  "expected_result": [
+    "User dapat membayar layanan CareMe melalui Mayar",
+    "Payment invoice dibuat otomatis",
+    "Webhook Mayar diterima backend",
+    "Status pembayaran otomatis diperbarui",
+    "Booking berubah menjadi paid setelah pembayaran berhasil"
+  ]
+}

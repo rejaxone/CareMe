@@ -1,0 +1,123 @@
+{
+  "task": "create_safety_reporting_page",
+  "project_name": "CareMe",
+  "page_name": "Laporkan Pelanggaran",
+  "page_slug": "/laporan-pelanggaran",
+  "goal": "Provide a reporting system for users to report caregiver misconduct such as violence, harassment, fraud, or theft so the CareMe admin team can quickly respond",
+
+  "layout": {
+    "container_width": "max-w-4xl",
+    "padding_top": "80px",
+    "padding_bottom": "80px",
+    "background": "light medical theme"
+  },
+
+  "hero_section": {
+    "title": "Laporkan Pelanggaran",
+    "subtitle": "Jika Anda mengalami atau menyaksikan pelanggaran etik oleh penyedia jasa CareMe, segera laporkan agar tim kami dapat menindaklanjuti dengan cepat."
+  },
+
+  "report_form": {
+    "title": "Formulir Pelaporan",
+    "fields": [
+      {
+        "name": "reporter_name",
+        "label": "Nama Pelapor",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "reporter_email",
+        "label": "Email Pelapor",
+        "type": "email",
+        "required": true
+      },
+      {
+        "name": "booking_id",
+        "label": "ID Booking",
+        "type": "text",
+        "required": false
+      },
+      {
+        "name": "caregiver_name",
+        "label": "Nama Penyedia Jasa yang Dilaporkan",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "incident_type",
+        "label": "Jenis Pelanggaran",
+        "type": "select",
+        "options": [
+          "Kekerasan",
+          "Pelecehan",
+          "Penipuan",
+          "Pencurian",
+          "Perilaku Tidak Profesional",
+          "Lainnya"
+        ]
+      },
+      {
+        "name": "incident_location",
+        "label": "Lokasi Kejadian",
+        "type": "text"
+      },
+      {
+        "name": "incident_date",
+        "label": "Tanggal Kejadian",
+        "type": "date"
+      },
+      {
+        "name": "incident_description",
+        "label": "Deskripsi Kejadian",
+        "type": "textarea",
+        "required": true
+      },
+      {
+        "name": "evidence_upload",
+        "label": "Upload Bukti (Foto / Video / Dokumen)",
+        "type": "file"
+      }
+    ]
+  },
+
+  "emergency_notice": {
+    "title": "Situasi Darurat",
+    "description": "Jika terjadi keadaan darurat yang membahayakan keselamatan pasien atau keluarga, segera hubungi layanan darurat setempat dan laporkan kejadian melalui formulir ini agar tim CareMe dapat segera melakukan tindakan."
+  },
+
+  "report_flow": {
+    "steps": [
+      "User submits report form",
+      "System creates report ticket",
+      "Admin receives notification",
+      "Admin reviews the report",
+      "Admin may suspend caregiver account",
+      "Admin contacts reporter for follow-up"
+    ]
+  },
+
+  "admin_actions": [
+    "review_report",
+    "contact_reporter",
+    "investigate_caregiver",
+    "temporary_suspend_account",
+    "permanent_ban_account"
+  ],
+
+  "success_message": {
+    "title": "Laporan Berhasil Dikirim",
+    "description": "Terima kasih atas laporan Anda. Tim CareMe akan meninjau laporan ini dan menghubungi Anda jika diperlukan."
+  },
+
+  "ui_design": {
+    "style": "clean healthcare safety page",
+    "colors": [
+      "#2E8BFF",
+      "#F7F9FC",
+      "#FFFFFF"
+    ],
+    "form_style": "card layout with clear input fields",
+    "icons": "warning and safety icons"
+  }
+}

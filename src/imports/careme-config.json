@@ -1,0 +1,367 @@
+{
+  "project": {
+    "name": "CareMe",
+    "type": "Healthcare Companion Marketplace",
+    "country": "Indonesia",
+    "currency": "IDR"
+  },
+
+  "roles": [
+    "customer",
+    "caregiver",
+    "admin"
+  ],
+
+  "authentication": {
+
+    "signup": {
+
+      "step_1_choose_role": {
+        "title": "Pilih Jenis Akun",
+        "options": [
+          {
+            "role": "customer",
+            "label": "Saya mencari jasa pendamping pasien"
+          },
+          {
+            "role": "caregiver",
+            "label": "Saya ingin menjadi penyedia jasa"
+          }
+        ]
+      },
+
+      "step_2_account_data": {
+        "fields": [
+          "full_name",
+          "email",
+          "phone_number",
+          "password",
+          "confirm_password"
+        ]
+      },
+
+      "step_3_verification": {
+        "methods": [
+          "email_verification",
+          "phone_otp"
+        ]
+      }
+    }
+  },
+
+  "caregiver_registration": {
+
+    "status_flow": [
+      "pending_verification",
+      "under_review",
+      "approved",
+      "rejected"
+    ],
+
+    "personal_data": {
+      "fields": [
+        "profile_photo",
+        "gender",
+        "date_of_birth",
+        "address",
+        "city",
+        "national_id_number",
+        "upload_ktp"
+      ]
+    },
+
+    "professional_data": {
+      "fields": [
+        "bio",
+        "experience",
+        "skills",
+        "languages",
+        "personality_traits",
+        "hourly_rate"
+      ]
+    },
+
+    "availability": {
+      "fields": [
+        "available_days",
+        "start_time",
+        "end_time"
+      ]
+    },
+
+    "service_area": {
+      "fields": [
+        "city",
+        "hospital_preferences",
+        "max_distance_km"
+      ]
+    },
+
+    "identity_verification": {
+      "fields": [
+        "selfie_with_ktp",
+        "bank_account",
+        "emergency_contact"
+      ]
+    },
+
+    "statement_letter": {
+
+      "title": "Surat Pernyataan Penyedia Jasa",
+
+      "text": "Saya menyatakan bahwa data yang saya berikan adalah benar. Saya bersedia menjalankan tugas sebagai pendamping pasien dengan penuh tanggung jawab, menjaga etika, tidak melakukan tindakan melanggar hukum, serta menjaga privasi pasien.",
+
+      "required_fields": [
+        "agree_checkbox",
+        "digital_signature",
+        "date"
+      ]
+    },
+
+    "terms": {
+      "checkbox_required": true,
+      "text": "Saya menyetujui syarat dan ketentuan serta kode etik platform."
+    }
+  },
+
+  "marketplace": {
+
+    "caregiver_card": {
+      "fields": [
+        "profile_photo",
+        "name",
+        "gender",
+        "personality_traits",
+        "city",
+        "rating",
+        "hourly_rate",
+        "availability_status"
+      ]
+    },
+
+    "filters": [
+      "location",
+      "gender",
+      "rating",
+      "price_range",
+      "availability"
+    ]
+  },
+
+  "caregiver_profile_page": {
+
+    "sections": [
+      "profile_photo",
+      "name",
+      "bio",
+      "experience",
+      "personality",
+      "languages",
+      "rating",
+      "reviews",
+      "hourly_rate",
+      "availability_calendar",
+      "book_button"
+    ]
+  },
+
+  "booking_system": {
+
+    "steps": [
+
+      {
+        "step": "choose_caregiver"
+      },
+
+      {
+        "step": "select_date_time",
+        "fields": [
+          "booking_date",
+          "start_time",
+          "end_time"
+        ]
+      },
+
+      {
+        "step": "booking_form",
+        "fields": [
+          "patient_name",
+          "hospital_name",
+          "hospital_address",
+          "room_number",
+          "purpose",
+          "special_notes",
+          "emergency_contact"
+        ]
+      },
+
+      {
+        "step": "review_booking",
+        "summary": [
+          "caregiver",
+          "date",
+          "time",
+          "total_hours",
+          "total_price"
+        ]
+      }
+
+    ],
+
+    "status_flow": [
+      "pending",
+      "accepted",
+      "rejected",
+      "awaiting_payment",
+      "paid",
+      "completed",
+      "cancelled"
+    ]
+  },
+
+  "caregiver_actions": [
+    "accept_booking",
+    "reject_booking"
+  ],
+
+  "payment": {
+
+    "provider": "Mayar",
+
+    "payment_link": "https://galaxy-guardian.myr.id/pl/careme",
+
+    "methods": [
+      "QRIS",
+      "Virtual Account",
+      "E-Wallet",
+      "Credit Card"
+    ],
+
+    "flow": [
+      "redirect_to_payment",
+      "customer_pay",
+      "receive_webhook",
+      "update_booking_status_paid"
+    ],
+
+    "webhook": {
+      "endpoint": "/api/payment/webhook/mayar",
+      "events": [
+        "payment_success",
+        "payment_failed"
+      ]
+    }
+  },
+
+  "rating_system": {
+
+    "enabled_after": "booking_completed",
+
+    "fields": [
+      "rating",
+      "review_text"
+    ]
+  },
+
+  "notifications": {
+
+    "channels": [
+      "email",
+      "in_app"
+    ],
+
+    "events": [
+      "booking_request",
+      "booking_accepted",
+      "booking_rejected",
+      "payment_required",
+      "payment_success",
+      "booking_reminder"
+    ]
+  },
+
+  "admin_panel": {
+
+    "features": [
+      "verify_caregiver",
+      "approve_registration",
+      "reject_registration",
+      "manage_users",
+      "view_bookings",
+      "handle_disputes",
+      "payment_dashboard"
+    ]
+  },
+
+  "database": {
+
+    "tables": {
+
+      "users": [
+        "id",
+        "full_name",
+        "email",
+        "phone",
+        "password_hash",
+        "role",
+        "created_at"
+      ],
+
+      "caregiver_profiles": [
+        "user_id",
+        "gender",
+        "birth_date",
+        "city",
+        "address",
+        "bio",
+        "experience",
+        "personality_traits",
+        "hourly_rate",
+        "rating_average",
+        "verification_status"
+      ],
+
+      "bookings": [
+        "id",
+        "customer_id",
+        "caregiver_id",
+        "booking_date",
+        "start_time",
+        "end_time",
+        "hospital_name",
+        "hospital_address",
+        "patient_name",
+        "purpose",
+        "total_price",
+        "status"
+      ],
+
+      "reviews": [
+        "id",
+        "booking_id",
+        "rating",
+        "review_text",
+        "created_at"
+      ]
+    }
+  },
+
+  "ui_design": {
+
+    "style": "modern healthcare marketplace",
+
+    "colors": [
+      "#2E8BFF",
+      "#F7F9FC",
+      "#FFFFFF"
+    ],
+
+    "components": [
+      "caregiver_card",
+      "booking_calendar",
+      "rating_stars",
+      "profile_modal",
+      "payment_button"
+    ]
+  }
+}

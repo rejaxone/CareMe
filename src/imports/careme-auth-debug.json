@@ -1,0 +1,87 @@
+{
+  "task": "debug_and_fix_authentication",
+  "project_name": "CareMe",
+  "tech_stack": {
+    "frontend": "React",
+    "auth": "Supabase Auth",
+    "provider": "Google OAuth",
+    "database": "Supabase PostgreSQL"
+  },
+
+  "problem_description": "User berhasil login menggunakan Google OAuth tetapi setelah redirect kembali ke halaman login dan terjadi login loop. Session tampaknya tidak terbaca oleh frontend.",
+
+  "project_urls": {
+    "frontend_url": "https://invite-patch-27950517.figma.site",
+    "supabase_project_url": "https://qsvvnssnkqbidelighkh.supabase.co"
+  },
+
+  "debug_tasks": [
+    "Periksa apakah supabase client diinisialisasi dengan benar",
+    "Periksa apakah supabase.auth.getSession() dijalankan saat halaman dimuat",
+    "Tambahkan auth state listener menggunakan supabase.auth.onAuthStateChange",
+    "Tambahkan logging untuk melihat apakah session null",
+    "Pastikan login page redirect ke dashboard jika session ada",
+    "Pastikan dashboard protected jika session tidak ada"
+  ],
+
+  "required_features": [
+    "session persistence",
+    "auth context global",
+    "protected routes",
+    "redirect setelah login"
+  ],
+
+  "auth_flow_expected": [
+    "User klik login Google",
+    "Supabase membuka OAuth Google",
+    "User login",
+    "Google redirect ke Supabase callback",
+    "Supabase membuat session",
+    "Frontend membaca session",
+    "User diarahkan ke dashboard"
+  ],
+
+  "required_code_structure": {
+
+    "supabase_client": "const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)",
+
+    "check_session_on_load": "const { data: { session } } = await supabase.auth.getSession();",
+
+    "auth_listener": "supabase.auth.onAuthStateChange((event, session) => { console.log('[Auth Event]', event); console.log('[Session]', session); });",
+
+    "google_login_function": "await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: 'https://invite-patch-27950517.figma.site' } })"
+  },
+
+  "login_page_logic": [
+    "Jika session ada redirect ke /dashboard",
+    "Jika session tidak ada tampilkan tombol login"
+  ],
+
+  "dashboard_logic": [
+    "Cek session",
+    "Jika tidak ada redirect ke /login"
+  ],
+
+  "debug_logs_required": [
+    "[CareMe Auth] Session detected",
+    "[CareMe Auth] No session found",
+    "[CareMe Auth] Redirecting to dashboard",
+    "[CareMe Auth] Redirecting to login"
+  ],
+
+  "fix_common_errors": [
+    "login loop",
+    "session null",
+    "redirect tidak berjalan",
+    "auth context tidak sinkron",
+    "supabase cookie tidak tersimpan"
+  ],
+
+  "expected_result": [
+    "Login Google berhasil",
+    "Session tersimpan di browser",
+    "User masuk ke dashboard",
+    "Tidak ada login loop",
+    "Session tetap ada setelah refresh"
+  ]
+}

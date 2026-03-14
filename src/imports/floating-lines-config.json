@@ -1,0 +1,92 @@
+{
+  "task": "integrate_background_animation",
+  "component_source": "@react-bits/FloatingLines-TS-TW",
+  "project_framework": "Next.js + React + TailwindCSS",
+  "design_source": "Figma (VibeCoding export)",
+  "goal": "Add animated FloatingLines background as decorative element without breaking existing layout",
+
+  "installation": {
+    "command": "npx shadcn@latest add @react-bits/FloatingLines-TS-TW",
+    "package_manager": "npm"
+  },
+
+  "component_import": {
+    "file": "components/background/FloatingLinesBackground.tsx",
+    "imports": [
+      "import FloatingLines from '@/components/FloatingLines'"
+    ]
+  },
+
+  "component_structure": {
+    "type": "background_wrapper",
+    "description": "Create reusable background wrapper that can be used on multiple sections",
+
+    "code_structure": {
+      "wrapper": "relative w-full overflow-hidden",
+      "background_layer": "absolute inset-0 z-0",
+      "content_layer": "relative z-10"
+    }
+  },
+
+  "floating_lines_settings": {
+    "enabledWaves": ["top", "middle", "bottom"],
+    "lineCount": 5,
+    "lineDistance": 5,
+    "bendRadius": 5,
+    "bendStrength": -0.5,
+    "interactive": true,
+    "parallax": true
+  },
+
+  "layout_integration": {
+    "target_sections": [
+      "hero_section",
+      "homepage_header",
+      "landing_section"
+    ],
+
+    "wrapper_style": {
+      "width": "100%",
+      "height": "600px",
+      "position": "relative"
+    },
+
+    "responsive_behavior": {
+      "desktop_height": "600px",
+      "tablet_height": "500px",
+      "mobile_height": "400px"
+    }
+  },
+
+  "tailwind_classes": {
+    "container": "relative w-full h-[600px] overflow-hidden",
+    "background": "absolute inset-0 z-0 opacity-70",
+    "content": "relative z-10 flex items-center justify-center"
+  },
+
+  "performance_rules": {
+    "disable_on_low_power_devices": true,
+    "reduce_motion_if_user_prefers": true,
+    "fps_limit": 60
+  },
+
+  "accessibility": {
+    "aria_hidden": true,
+    "decorative_only": true
+  },
+
+  "design_alignment": {
+    "match_figma_layout": true,
+    "do_not_modify_existing_components": true,
+    "maintain_spacing_from_figma": true
+  },
+
+  "implementation_steps": [
+    "Install FloatingLines component using shadcn CLI",
+    "Create reusable background wrapper component",
+    "Place FloatingLines as absolute background layer",
+    "Keep page content inside relative z-index layer",
+    "Ensure background does not block buttons or interactions",
+    "Match spacing and layout with existing Figma design"
+  ]
+}

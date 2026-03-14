@@ -1,0 +1,131 @@
+{
+  "task": "create_how_it_works_page",
+  "project_name": "CareMe",
+  "page_name": "Cara Kerja",
+  "page_slug": "/cara-kerja",
+  "goal": "Explain clearly how the CareMe platform works for customers and caregivers so new users understand the service flow quickly",
+
+  "layout": {
+    "container_width": "max-w-6xl",
+    "padding_top": "80px",
+    "padding_bottom": "80px",
+    "text_align": "center"
+  },
+
+  "hero_section": {
+    "title": "Cara Kerja CareMe",
+    "subtitle": "Temukan pendamping terpercaya untuk menemani orang tercinta Anda di rumah sakit dengan mudah dan aman.",
+    "background_style": "soft medical gradient",
+    "text_alignment": "center"
+  },
+
+  "section_customer_flow": {
+    "title": "Untuk Pencari Jasa",
+    "description": "Langkah-langkah mudah untuk menemukan pendamping pasien melalui platform CareMe.",
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Buat Akun",
+        "description": "Daftar di platform CareMe sebagai pencari jasa dengan mengisi nama, email, dan nomor telepon."
+      },
+      {
+        "step_number": 2,
+        "title": "Cari Pendamping",
+        "description": "Gunakan fitur pencarian untuk menemukan pendamping pasien berdasarkan lokasi, rating, atau preferensi lainnya."
+      },
+      {
+        "step_number": 3,
+        "title": "Lihat Profil Penyedia Jasa",
+        "description": "Periksa profil penyedia jasa, termasuk pengalaman, kepribadian, tarif per jam, dan ulasan dari pengguna sebelumnya."
+      },
+      {
+        "step_number": 4,
+        "title": "Lakukan Booking",
+        "description": "Pilih tanggal dan jam layanan, kemudian isi informasi pasien dan kebutuhan pendampingan."
+      },
+      {
+        "step_number": 5,
+        "title": "Konfirmasi & Pembayaran",
+        "description": "Setelah penyedia jasa menerima permintaan Anda, lakukan pembayaran melalui sistem pembayaran online."
+      },
+      {
+        "step_number": 6,
+        "title": "Pendampingan Dimulai",
+        "description": "Pendamping akan datang sesuai jadwal untuk menemani pasien di rumah sakit."
+      }
+    ]
+  },
+
+  "section_caregiver_flow": {
+    "title": "Untuk Penyedia Jasa",
+    "description": "Langkah-langkah menjadi pendamping pasien di platform CareMe.",
+    "steps": [
+      {
+        "step_number": 1,
+        "title": "Daftar Sebagai Penyedia Jasa",
+        "description": "Pilih opsi penyedia jasa saat pendaftaran akun."
+      },
+      {
+        "step_number": 2,
+        "title": "Lengkapi Profil",
+        "description": "Isi informasi pribadi, pengalaman, keahlian, serta unggah identitas untuk proses verifikasi."
+      },
+      {
+        "step_number": 3,
+        "title": "Verifikasi Admin",
+        "description": "Tim CareMe akan memverifikasi data Anda sebelum akun dapat menerima permintaan layanan."
+      },
+      {
+        "step_number": 4,
+        "title": "Terima Permintaan Booking",
+        "description": "Anda akan menerima notifikasi ketika ada pelanggan yang ingin menggunakan jasa Anda."
+      },
+      {
+        "step_number": 5,
+        "title": "Konfirmasi Jadwal",
+        "description": "Setujui atau tolak permintaan booking sesuai ketersediaan Anda."
+      },
+      {
+        "step_number": 6,
+        "title": "Selesaikan Layanan",
+        "description": "Datang ke rumah sakit sesuai jadwal dan berikan layanan pendampingan terbaik kepada pasien."
+      }
+    ]
+  },
+
+  "trust_section": {
+    "title": "Mengapa Memilih CareMe",
+    "points": [
+      "Penyedia jasa telah melalui proses verifikasi identitas",
+      "Sistem rating dan ulasan dari pengguna",
+      "Pembayaran aman melalui gateway terpercaya",
+      "Fitur pencarian dan filter yang memudahkan menemukan pendamping yang sesuai"
+    ]
+  },
+
+  "call_to_action": {
+    "title": "Mulai Sekarang",
+    "description": "Temukan pendamping terpercaya untuk orang tercinta Anda.",
+    "buttons": [
+      {
+        "text": "Cari Pendamping",
+        "link": "/marketplace"
+      },
+      {
+        "text": "Daftar Sebagai Pendamping",
+        "link": "/signup"
+      }
+    ]
+  },
+
+  "ui_design": {
+    "style": "modern healthcare startup",
+    "color_palette": [
+      "#2E8BFF",
+      "#F7F9FC",
+      "#FFFFFF"
+    ],
+    "icons": "medical and caregiving themed icons",
+    "card_layout": "step-by-step cards with icons and numbers"
+  }
+}
