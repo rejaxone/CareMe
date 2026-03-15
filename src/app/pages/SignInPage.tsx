@@ -49,7 +49,7 @@ export function SignInPage() {
       const msg = err.message || 'Login Google gagal.';
       setError(
         msg +
-        '\n\nPastikan URL https://invite-patch-27950517.figma.site sudah ditambahkan ke:\nSupabase → Auth → URL Configuration → Redirect URLs'
+        '\n\nPastikan URL https://caremeapps.netlify.app sudah ditambahkan ke:\nSupabase → Auth → URL Configuration → Redirect URLs'
       );
       setGoogleLoading(false);
     }

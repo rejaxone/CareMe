@@ -5,8 +5,8 @@ import { publicAnonKey } from '/utils/supabase/info';
 // ─── The frontend URL is dynamically determined based on the environment
 //     This MUST match the domains added to:
 //     Supabase Dashboard → Authentication → URL Configuration → Redirect URLs
-//     e.g., http://localhost:5173 and https://invite-patch-27950517.figma.site
-const FRONTEND_URL = typeof window !== 'undefined' ? window.location.origin : 'https://invite-patch-27950517.figma.site';
+//     e.g., http://localhost:5173 and https://caremeapps.netlify.app
+const FRONTEND_URL = typeof window !== 'undefined' ? window.location.origin : 'https://caremeapps.netlify.app';
 
 export type UserRole = 'customer' | 'caregiver' | 'admin';
 
@@ -330,7 +330,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signInWithGoogle = async () => {
     // ⚠️  REQUIRED SUPABASE SETUP:
     //     Go to Supabase Dashboard → Authentication → URL Configuration → Redirect URLs
-    //     Add: https://invite-patch-27950517.figma.site
+    //     Add: https://caremeapps.netlify.app
     //
     //     Also ensure Google provider is enabled:
     //     Authentication → Providers → Google → Enable
