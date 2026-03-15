@@ -8,9 +8,9 @@ import { CaregiverCard } from '../components/CaregiverCard';
 import { HospitalPartnersSection } from '../components/HospitalPartnersSection';
 import { PlatformStatsSection } from '../components/PlatformStatsSection';
 import RotatingText from '../components/RotatingText';
+import { ParallaxImage } from '../components/ParallaxImage';
+import FloatingLines from '../components/FloatingLines';
 
-
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1623657935970-9d5e1ce1a037?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800';
 const ABOUT_IMAGE = 'https://images.unsplash.com/photo-1758691462482-2b6ccbaefa6e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600';
 
 const howItWorks = [
@@ -96,15 +96,27 @@ export function HomePage() {
   return (
     <div>
       {/* ── Hero Section ─────────────────────────────────────────────────── */}
-      <section className="bg-white" style={{ borderBottom: '1px solid #F0F4F8' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 lg:pt-28 lg:pb-24">
+      <section className="relative bg-white overflow-hidden z-20 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+        <div className="absolute inset-0 z-0">
+          <FloatingLines 
+            linesGradient={['#EBF4FF', '#2E8BFF']} /* Light blue to standard primary blue to match careme theme */
+            enabledWaves={["top","middle","bottom"]}
+            lineCount={5}
+            lineDistance={5}
+            bendRadius={5}
+            bendStrength={-0.5}
+            interactive={true}
+            parallax={true}
+          />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 lg:pt-28 lg:pb-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
             {/* ── Left col: text & CTA ── */}
             <div>
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-[#2E8BFF] rounded-full text-sm mb-7">
-                <Heart className="w-3.5 h-3.5 fill-[#2E8BFF]" />
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-blue-50 text-[#2E8BFF] rounded-full text-base font-medium mb-7 border border-blue-100/50">
+                <Heart className="w-4 h-4 fill-[#2E8BFF]" />
                 <span>Platform Pendamping Pasien #1 di Indonesia</span>
               </div>
 
@@ -163,19 +175,41 @@ export function HomePage() {
               </div>
             </div>
 
-            {/* ── Right col: image ── */}
-            <div className="relative">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src={HERO_IMAGE}
-                  alt="Pendamping pasien"
-                  className="w-full h-[480px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+            {/* ── Right col: parallax illustration ── */}
+            <div className="relative flex items-end justify-center" style={{ minHeight: '520px' }}>
+
+              {/* Monitor/Tablet Mockup Frame */}
+              <div 
+                className="relative w-full max-w-lg rounded-[2.5rem] bg-gray-900 p-3 sm:p-4 shadow-2xl border-4 border-gray-800 mx-auto"
+                style={{ height: '520px', boxShadow: '0 30px 60px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.1) inset' }}
+              >
+                {/* Camera notch / dynamic island style */}
+                <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center border border-gray-800/80">
+                   <div className="w-2 h-2 rounded-full bg-gray-800/80 mr-4"></div>
+                   <div className="w-1.5 h-1.5 rounded-full bg-[#111] flex items-center justify-center shadow-[0_0_2px_rgba(46,139,255,0.5)]">
+                      <div className="w-0.5 h-0.5 rounded-full bg-blue-500"></div>
+                   </div>
+                </div>
+
+                {/* Inner screen */}
+                <div className="relative w-full h-full bg-white rounded-[1.8rem] overflow-hidden">
+                  <ParallaxImage
+                    src="/images/hero-patient.png"
+                    alt="Pasien lansia di kursi roda — CareMe"
+                    speed={0.28}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                </div>
               </div>
 
               {/* Floating booking card */}
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg p-4 max-w-[200px]">
+              <div
+                className="absolute bottom-8 -left-4 bg-white rounded-2xl shadow-lg p-4 max-w-[200px]"
+                style={{ backdropFilter: 'blur(8px)', border: '1px solid rgba(0,0,0,0.06)' }}
+              >
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
                     <CheckCircle className="w-4 h-4 text-green-600" />
@@ -189,7 +223,10 @@ export function HomePage() {
               </div>
 
               {/* Floating rating card */}
-              <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-lg p-3">
+              <div
+                className="absolute top-10 -right-4 bg-white rounded-2xl shadow-lg p-3"
+                style={{ backdropFilter: 'blur(8px)', border: '1px solid rgba(0,0,0,0.06)' }}
+              >
                 <div className="flex items-center gap-1 mb-1">
                   {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />)}
                 </div>
@@ -209,7 +246,7 @@ export function HomePage() {
       <PlatformStatsSection />
 
       {/* How It Works */}
-      <section id="cara-kerja" className="py-16 lg:py-24" style={{ background: '#F7F9FC' }}>
+      <section id="cara-kerja" className="relative py-16 lg:py-24 z-10" style={{ background: '#F7F9FC' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-gray-900 mb-3" style={{ fontSize: '2rem', fontWeight: 700 }}>
@@ -245,7 +282,7 @@ export function HomePage() {
       </section>
 
       {/* Featured Caregivers */}
-      <section className="bg-white py-16 lg:py-24">
+      <section className="relative bg-white py-16 lg:py-24 z-20 shadow-[0_-8px_30px_rgba(0,0,0,0.04),0_8px_30px_rgba(0,0,0,0.04)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-10">
             <div>
@@ -282,7 +319,7 @@ export function HomePage() {
       </section>
 
       {/* Why CareMe */}
-      <section className="py-16 lg:py-24" style={{ background: '#F7F9FC' }}>
+      <section className="relative py-16 lg:py-24 z-10" style={{ background: '#F7F9FC' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -329,7 +366,7 @@ export function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-white py-16 lg:py-24">
+      <section className="relative bg-white py-16 lg:py-24 z-20 shadow-[0_-8px_30px_rgba(0,0,0,0.04),0_8px_30px_rgba(0,0,0,0.04)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-gray-900 mb-3" style={{ fontSize: '2rem', fontWeight: 700 }}>
@@ -361,7 +398,7 @@ export function HomePage() {
       </section>
 
       {/* CTA Banner */}
-      <section className="py-16" style={{ background: '#2E8BFF' }}>
+      <section className="relative py-16 z-30 shadow-[0_-12px_40px_rgba(0,0,0,0.05)]" style={{ background: '#2E8BFF' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-white mb-3" style={{ fontSize: '2rem', fontWeight: 700 }}>
             Siap Menjaga Orang Tersayang?

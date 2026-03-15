@@ -8,8 +8,7 @@ import {
 import { mockCaregivers, formatIDR } from '../data/mockData';
 import { RatingStars } from '../components/RatingStars';
 import { useAuth } from '../context/AuthContext';
-import { API_BASE } from '../lib/supabase';
-import { publicAnonKey } from '/utils/supabase/info';
+import { API_BASE, supabase } from '../lib/supabase';
 
 interface BookingForm {
   bookingDate: string;
@@ -117,13 +116,24 @@ export function BookingPage() {
     setSubmitError('');
 
     try {
-      const authHeader = accessToken || publicAnonKey;
+      // Try to refresh session if no access token
+      let token = accessToken;
+      if (!token) {
+        const { data: refreshData } = await supabase.auth.refreshSession();
+        token = refreshData?.session?.access_token || null;
+      }
+
+      if (!token) {
+        setSubmitError('Sesi login tidak ditemukan. Silakan logout dan login kembali.');
+        setIsSubmitting(false);
+        return;
+      }
 
       const res = await fetch(`${API_BASE}/api/bookings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authHeader}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           caregiverId: caregiver.id,
@@ -144,7 +154,17 @@ export function BookingPage() {
         }),
       });
 
-      const data = await res.json();
+      const rawText = await res.text();
+      console.log('[CareMe Booking] Raw response:', res.status, rawText.substring(0, 300));
+
+      let data: any;
+      try {
+        data = JSON.parse(rawText);
+      } catch {
+        setSubmitError(`Server error (HTTP ${res.status}): Respons tidak valid. Coba beberapa saat lagi.`);
+        setIsSubmitting(false);
+        return;
+      }
 
       if (!res.ok) {
         console.log('[CareMe Booking] Create booking error:', data);
@@ -158,7 +178,7 @@ export function BookingPage() {
       setBookingSuccess(true);
     } catch (err) {
       console.log('[CareMe Booking] Network error:', err);
-      setSubmitError(`Network error: ${err}`);
+      setSubmitError(`Tidak bisa terhubung ke server. Pastikan koneksi internet stabil dan coba lagi.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -171,18 +191,38 @@ export function BookingPage() {
     setSubmitError('');
 
     try {
-      const authHeader = accessToken || publicAnonKey;
+      let token = accessToken;
+      if (!token) {
+        const { data: refreshData } = await supabase.auth.refreshSession();
+        token = refreshData?.session?.access_token || null;
+      }
+
+      if (!token) {
+        setSubmitError('Sesi login tidak ditemukan. Silakan logout dan login kembali.');
+        setIsCreatingPayment(false);
+        return;
+      }
 
       const res = await fetch(`${API_BASE}/api/payments/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authHeader}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ bookingId: createdBooking.id }),
       });
 
-      const data = await res.json();
+      const rawText = await res.text();
+      console.log('[CareMe Payment] Raw response:', res.status, rawText.substring(0, 300));
+
+      let data: any;
+      try {
+        data = JSON.parse(rawText);
+      } catch {
+        setSubmitError(`Server error (HTTP ${res.status}): Respons tidak valid.`);
+        setIsCreatingPayment(false);
+        return;
+      }
 
       if (!res.ok) {
         console.log('[CareMe Payment] Create payment error:', data);
@@ -194,11 +234,12 @@ export function BookingPage() {
       console.log('[CareMe Payment] Payment link:', data.paymentUrl);
 
       if (data.paymentUrl) {
-        window.open(data.paymentUrl, '_blank');
+        setCreatedBooking(data.booking);
+        window.location.href = data.paymentUrl;
       }
     } catch (err) {
       console.log('[CareMe Payment] Network error:', err);
-      setSubmitError(`Network error: ${err}`);
+      setSubmitError(`Tidak bisa terhubung ke server. Pastikan koneksi internet stabil.`);
     } finally {
       setIsCreatingPayment(false);
     }
@@ -206,21 +247,28 @@ export function BookingPage() {
 
   // ── Booking success screen ────────────────────────────────────────────────
   if (bookingSuccess && createdBooking) {
+    const isPaid = createdBooking.status === 'paid' || createdBooking.paymentStatus === 'paid';
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: '#F7F9FC' }}>
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-md w-full mx-4 text-center">
           <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
-          <h2 className="text-gray-900 text-xl font-semibold mb-2">Booking Berhasil Dibuat!</h2>
+          <h2 className="text-gray-900 text-xl font-semibold mb-2">
+            {isPaid ? 'Pembayaran Berhasil!' : 'Booking Berhasil Dibuat!'}
+          </h2>
           <p className="text-gray-500 text-sm mb-2">
-            Permintaan booking Anda telah dikirim ke <strong>{caregiver.name}</strong>. Silakan lanjutkan pembayaran.
+            {isPaid 
+              ? `Booking Anda dengan ${caregiver.name} telah dikonfirmasi.` 
+              : `Permintaan booking Anda telah dikirim ke ${caregiver.name}. Silakan lanjutkan pembayaran.`}
           </p>
           <div className="bg-blue-50 rounded-xl p-3 mb-4 text-left">
             <p className="text-sm text-[#2E8BFF] font-medium mb-1">
               Nomor Booking: {createdBooking.id}
             </p>
-            <p className="text-xs text-gray-500">Status: Menunggu Pembayaran</p>
+            <p className="text-xs text-gray-500">
+              Status: <strong className={isPaid ? 'text-green-600' : 'text-orange-500'}>{isPaid ? 'Telah Membayar' : 'Menunggu Pembayaran'}</strong>
+            </p>
           </div>
 
           {/* Price summary */}
@@ -255,25 +303,27 @@ export function BookingPage() {
           )}
 
           <div className="space-y-3">
-            <button
-              onClick={handlePayNow}
-              disabled={isCreatingPayment}
-              className="w-full py-3 rounded-xl font-medium text-white flex items-center justify-center gap-2 hover:opacity-90 disabled:opacity-60"
-              style={{ background: '#2E8BFF' }}
-            >
-              {isCreatingPayment ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Membuat Link Pembayaran...
-                </>
-              ) : (
-                <>
-                  <CreditCard className="w-4 h-4" />
-                  Bayar Sekarang via Mayar
-                  <ExternalLink className="w-4 h-4" />
-                </>
-              )}
-            </button>
+            {!isPaid && (
+              <button
+                onClick={handlePayNow}
+                disabled={isCreatingPayment}
+                className="w-full py-3 rounded-xl font-medium text-white flex items-center justify-center gap-2 hover:opacity-90 disabled:opacity-60"
+                style={{ background: '#2E8BFF' }}
+              >
+                {isCreatingPayment ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Memproses Pembayaran...
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-4 h-4" />
+                    Bayar Sekarang via Mayar
+                    <ExternalLink className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            )}
             <button
               onClick={() => navigate('/dashboard/customer')}
               className="w-full py-3 rounded-xl font-medium text-gray-700 border border-gray-200 hover:bg-gray-50 transition-colors"
@@ -283,7 +333,7 @@ export function BookingPage() {
           </div>
 
           <p className="text-xs text-gray-400 mt-4">
-            Pembayaran diproses melalui Mayar Payment Gateway. Status akan otomatis diperbarui setelah pembayaran berhasil.
+            {isPaid ? '' : 'Pembayaran diproses melalui Mayar Payment Gateway. Status akan otomatis diperbarui setelah pembayaran berhasil.'}
           </p>
         </div>
       </div>

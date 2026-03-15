@@ -132,13 +132,23 @@ export function CustomerDashboard() {
         body: JSON.stringify({ bookingId: booking.id }),
       });
 
-      const data = await res.json();
+      let data;
+      const textResponse = await res.clone().text(); // Simpan salinan teks jika gagal di-*parse*
+      try {
+        data = await res.json();
+      } catch (parseError) {
+        console.error('[CustomerDashboard] Backend response bukan JSON valid:', textResponse);
+        toast.error('Gagal terhubung ke sistem pembayaran (Respon server tidak valid)');
+        setPayingBookingId(null);
+        return;
+      }
+
       if (res.ok && data.paymentUrl) {
         window.open(data.paymentUrl, '_blank');
-        // Refresh bookings to get updated payment info
         fetchBookings();
       } else {
         console.log('[CustomerDashboard] Payment create error:', data);
+        toast.error(data.error || 'Terjadi kesalahan pada sistem pembayaran Mayar');
       }
     } catch (err) {
       console.log('[CustomerDashboard] Payment network error:', err);

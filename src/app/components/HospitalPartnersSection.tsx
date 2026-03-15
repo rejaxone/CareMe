@@ -70,7 +70,7 @@ export function HospitalPartnersSection() {
           damping={50}
           stiffness={400}
           velocityMapping={{ input: [0, 1000], output: [0, 5] }}
-          doubleRow={false}
+          doubleRow={true}
         />
       </div>
 

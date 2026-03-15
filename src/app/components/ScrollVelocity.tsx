@@ -32,6 +32,7 @@ interface VelocityRowProps {
   damping: number;
   stiffness: number;
   velocityMapping: { input: [number, number]; output: [number, number] };
+  direction?: 1 | -1;
 }
 
 /* ── single row ─────────────────────────────────────────────── */
@@ -42,6 +43,7 @@ function VelocityRow({
   damping,
   stiffness,
   velocityMapping,
+  direction = 1,
 }: VelocityRowProps) {
   /* Ref on EXACTLY ONE copy so we can measure its rendered width */
   const copyRef = useRef<HTMLDivElement>(null);
@@ -83,11 +85,23 @@ function VelocityRow({
 
     /* Always move + boost from scroll velocity */
     const boost = 1 + Math.abs(extraFactor.get());
-    rawX.current -= baseVelocity * boost * (delta / 1000);
+    
+    // Initialize right-scrolling offset correctly on first frame
+    if (direction === -1 && rawX.current === 0) {
+      rawX.current = -copyWidth;
+    }
 
-    /* Seamless wrap: jump forward by exactly one copy width */
-    if (rawX.current <= -copyWidth) {
-      rawX.current += copyWidth;
+    rawX.current -= direction * baseVelocity * boost * (delta / 1000);
+
+    /* Seamless wrap */
+    if (direction === 1) {
+      if (rawX.current <= -copyWidth) {
+        rawX.current += copyWidth;
+      }
+    } else {
+      if (rawX.current > 0) {
+        rawX.current -= copyWidth;
+      }
     }
 
     x.set(rawX.current);
@@ -163,7 +177,7 @@ export function ScrollVelocity({
   className = '',
 }: ScrollVelocityProps) {
   return (
-    <div className={`w-full flex flex-col gap-3 ${className}`}>
+    <div className={`w-full flex flex-col gap-0 ${className}`}>
       <VelocityRow
         items={texts}
         baseVelocity={velocity}
@@ -178,6 +192,7 @@ export function ScrollVelocity({
           damping={damping}
           stiffness={stiffness}
           velocityMapping={velocityMapping}
+          direction={-1}
         />
       )}
     </div>
