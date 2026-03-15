@@ -1,7 +1,7 @@
 
   # Marketplace website for CareMe
 
-  This is a code bundle for Marketplace website for CareMe. The original project is available at https://www.figma.com/design/Mg81HIFKJm2bxHGRpN39ZL/Marketplace-website-for-CareMe.
+  This is a code bundle for Marketplace website for CareMe. The original project is available at [https://caremeapps.netlify.app/].
 
   ## Running the code
 
